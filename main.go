@@ -27,6 +27,10 @@ func main() {
 	thinkertoy := "./art/thinkertoy.txt"
 	if strings.HasPrefix(output, "--output=") {
 		filename := strings.TrimPrefix(output, "--output=")
+		if strings.Contains(filename, "/") {
+			fmt.Println("Error: File name should not contain '/'")
+			return
+		}
 		if !strings.HasSuffix(filename, ".txt") {
 			fmt.Println("Error: Output file must have a .txt extension")
 			return
