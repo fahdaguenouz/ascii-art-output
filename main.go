@@ -70,33 +70,29 @@ func main() {
 				return
 			}
 
-			const numLinesPerChar = 8
-			startChar := 32
-			spaceBetweenChars := 1 // One space between the ASCII characters
+			var result string
+		lines := strings.Split(input, "\\n")
 
-			// Each character has an empty line before and after the 8 lines
-			linesPerCharacter := numLinesPerChar + spaceBetweenChars // 1 empty line before and after the 8 lines
-
-			lines := strings.Split(input, "\\n")
-
-			for _, line := range lines {
-				// Loop over the 8 lines for each character row
-				for i := 0; i < numLinesPerChar; i++ {
-					// Loop over each character in the line
-					for _, char := range line {
-						asciiIndex := int(char) - startChar                               // Find the index of the character in the file
-						lineIndex := asciiIndex*linesPerCharacter + spaceBetweenChars + i // Account for empty lines
-
-						// Check if the index is valid and print the corresponding line for the character
-						if lineIndex < len(asciiArt) {
-							writer.WriteString(asciiArt[lineIndex])
-						}
-						writer.WriteString(" ") // Space between characters
-					}
-					writer.WriteString("\n") // Newline after each row of characters
-				}
-				writer.WriteString("\n") // Extra newline after processing each line in the input
+		for _, line := range lines {
+			if line == "" {
+				result += "\n"
+				continue
 			}
+			// Iterate over each row of the ASCII art (0 to 7, for the 8 rows)
+			for i := 1; i <= 8; i++ {
+				for _, r := range line {
+					// Ensure the character is within the valid ASCII range
+					if r < 32 || r > 126 {
+						fmt.Println("Please enter a valide character between ascii code 32 and 126")
+						return
+					}
+					index := 9*(int(r)-32) + i 
+					result += asciiArt[index]
+				}
+				result += "\n" // Add newline after finishing the current row of the line
+			}
+		}
+			writer.WriteString(result)
 
 			// Flush the buffer to write the content to the file
 			writer.Flush()
