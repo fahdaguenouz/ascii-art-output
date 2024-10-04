@@ -58,7 +58,6 @@ func main() {
 			}
 			defer outputFile.Close()
 
-			writer := bufio.NewWriter(outputFile)
 			var asciiArt []string
 
 			scanner := bufio.NewScanner(file)
@@ -84,7 +83,7 @@ func main() {
 				for _, r := range line {
 					// Ensure the character is within the valid ASCII range
 					if r < 32 || r > 126 {
-						fmt.Println("Please enter a valide character between ascii code 32 and 126")
+						fmt.Println("Please enter a valid character between ascii code 32 and 126")
 						return
 					}
 					index := 9*(int(r)-32) + i 
@@ -93,10 +92,7 @@ func main() {
 				result += "\n" // Add newline after finishing the current row of the line
 			}
 		}
-			writer.WriteString(result)
-
-			// Flush the buffer to write the content to the file
-			writer.Flush()
+			os.WriteFile(filename,[]byte(result),0644 )
 			fmt.Println("Output written to", filename)
 		} else {
 			fmt.Println("Usage: go run . [OPTION] [STRING] [BANNER]")
@@ -106,7 +102,6 @@ func main() {
 	} else {
 		fmt.Println("Usage: go run . [OPTION] [STRING] [BANNER]")
 			fmt.Println("EX: go run . --output=<fileName.txt> something standard")
-
 	}
 
 	}else if len(args) == 2 {
@@ -135,7 +130,6 @@ func main() {
 				}
 				defer outputFile.Close()
 	
-				writer := bufio.NewWriter(outputFile)
 				var asciiArt []string
 	
 				scanner := bufio.NewScanner(file)
@@ -161,7 +155,7 @@ func main() {
 					for _, r := range line {
 						// Ensure the character is within the valid ASCII range
 						if r < 32 || r > 126 {
-							fmt.Println("Please enter a valide character between ascii code 32 and 126")
+							fmt.Println("Please enter a valid character between ascii code 32 and 126")
 							return
 						}
 						index := 9*(int(r)-32) + i 
@@ -170,19 +164,14 @@ func main() {
 					result += "\n" // Add newline after finishing the current row of the line
 				}
 			}
-				writer.WriteString(result)
+				os.WriteFile(filename,[]byte(result),0644)
 	
-				// Flush the buffer to write the content to the file
-				writer.Flush()
 				fmt.Println("Output written to", filename)
 			
 		} else {
 			fmt.Println("Usage: go run . [OPTION] [STRING] [BANNER]")
 				fmt.Println("EX: go run . --output=<fileName.txt> something standard")
 				return 
-	
 		}
 	}
-	
-	
 }
